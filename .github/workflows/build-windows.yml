@@ -1,0 +1,55 @@
+name: Build Windows
+
+on:
+  push:
+    tags:
+      - 'v*-windows'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          workdir: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_OAUTH_CLIENT_ID: ${{ secrets.VITE_OAUTH_CLIENT_ID }}
+          VITE_OAUTH_REDIRECT_URI: ${{ secrets.VITE_OAUTH_REDIRECT_URI }}
+          VITE_DEFAULT_LANGUAGE: fr
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: YoutubeFocus Desktop — Windows ${{ github.ref_name }}
+          releaseBody: |
+            ## YoutubeFocus Desktop — Windows
+
+            ### Installation
+            1. Télécharger le fichier `.msi`
+            2. Double-cliquer pour installer
+            3. Au premier lancement : cliquer "Informations complémentaires" → "Exécuter quand même" (SmartScreen)
+
+            ### Prérequis
+            - Windows 10/11 (64-bit)
+            - Compte Google avec abonnements YouTube
+          releaseDraft: true
+          prerelease: false
