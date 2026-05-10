@@ -1,3 +1,4 @@
+// FICHIER CRITIQUE — maintenir identique dans youtubefocus/src/db/db.ts
 import Dexie, { type Table } from 'dexie'
 
 export interface CachedChannel {

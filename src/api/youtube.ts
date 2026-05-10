@@ -1,3 +1,4 @@
+// FICHIER CRITIQUE — maintenir identique dans youtubefocus/src/api/youtube.ts
 import type { CachedChannel, CachedPlaylist } from '@/db/db'
 import { parseDuration } from '@/utils/filterShorts'
 
