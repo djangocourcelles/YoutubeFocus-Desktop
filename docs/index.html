@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YoutubeFocus Desktop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface2: #27272a;
+      --border: #3f3f46;
+      --text: #fafafa;
+      --muted: #a1a1aa;
+      --amber: #f59e0b;
+      --amber-dark: #d97706;
+      --amber-glow: rgba(245,158,11,.15);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(9,9,11,.85); backdrop-filter: blur(12px); z-index: 100; }
+    .nav-brand { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-brand span { color: var(--amber); }
+    .nav-links { display: flex; gap: 1.5rem; font-size: .9rem; color: var(--muted); }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; background: var(--amber); color: #000; font-weight: 600; font-size: .9rem; padding: .6rem 1.2rem; border-radius: .5rem; transition: background .15s; }
+    .btn:hover { background: var(--amber-dark); text-decoration: none; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--surface2); }
+
+    /* HERO */
+    .hero { text-align: center; padding: 5rem 2rem 4rem; max-width: 720px; margin: 0 auto; }
+    .badge { display: inline-block; background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(245,158,11,.3); font-size: .75rem; font-weight: 600; padding: .25rem .75rem; border-radius: 999px; margin-bottom: 1.5rem; letter-spacing: .05em; text-transform: uppercase; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.25rem; }
+    .hero h1 span { color: var(--amber); }
+    .hero p { font-size: 1.15rem; color: var(--muted); max-width: 520px; margin: 0 auto 2rem; }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* SCREENSHOTS */
+    .screenshots { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .screenshots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .screenshot { border-radius: .75rem; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+    .screenshot img { width: 100%; height: auto; display: block; }
+    .screenshot-placeholder { aspect-ratio: 16/10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; color: var(--muted); font-size: .85rem; }
+    .screenshot-label { padding: .75rem 1rem; font-size: .8rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+    /* FEATURES */
+    .section { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .section-title { font-size: 1.6rem; font-weight: 700; margin-bottom: .5rem; }
+    .section-sub { color: var(--muted); margin-bottom: 2.5rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: .75rem; padding: 1.25rem; }
+    .feature-icon { font-size: 1.5rem; margin-bottom: .75rem; }
+    .feature-card h3 { font-size: .95rem; font-weight: 600; margin-bottom: .4rem; }
+    .feature-card p { font-size: .85rem; color: var(--muted); }
+
+    /* SETUP */
+    .setup-steps { display: flex; flex-direction: column; gap: .75rem; }
+    .step { display: flex; gap: 1rem; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: .75rem; padding: 1.25rem; }
+    .step-num { flex-shrink: 0; width: 2rem; height: 2rem; background: var(--amber-glow); border: 1px solid rgba(245,158,11,.4); color: var(--amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; }
+    .step-content h3 { font-size: .95rem; font-weight: 600; margin-bottom: .3rem; }
+    .step-content p { font-size: .85rem; color: var(--muted); }
+    .step-content code { background: var(--surface2); color: var(--amber); padding: .15rem .4rem; border-radius: .25rem; font-size: .8rem; font-family: 'SF Mono', Menlo, monospace; }
+    .callout { background: var(--amber-glow); border: 1px solid rgba(245,158,11,.3); border-radius: .75rem; padding: 1rem 1.25rem; font-size: .875rem; color: var(--text); margin-top: 1.5rem; }
+
+    /* INSTALL */
+    .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .install-card { background: var(--surface); border: 1px solid var(--border); border-radius: .75rem; padding: 1.5rem; }
+    .install-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .5rem; }
+    .install-card p { font-size: .875rem; color: var(--muted); margin-bottom: 1rem; }
+    pre { background: var(--surface2); border: 1px solid var(--border); border-radius: .5rem; padding: 1rem; font-size: .8rem; overflow-x: auto; font-family: 'SF Mono', Menlo, monospace; color: #d4d4d8; line-height: 1.7; }
+    pre .comment { color: #71717a; }
+    pre .cmd { color: var(--amber); }
+
+    /* STACK */
+    .stack-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    .stack-table th { text-align: left; padding: .6rem 1rem; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--border); }
+    .stack-table td { padding: .7rem 1rem; border-bottom: 1px solid var(--surface2); }
+    .stack-table td:first-child { color: var(--muted); }
+    .tag { display: inline-block; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-size: .75rem; padding: .15rem .5rem; border-radius: .25rem; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; color: var(--muted); font-size: .85rem; }
+    footer a { color: var(--muted); }
+
+    @media (max-width: 640px) {
+      .screenshots-grid, .install-grid { grid-template-columns: 1fr; }
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Youtube<span>Focus</span></div>
+  <div class="nav-links">
+    <a href="#fonctionnalites">Fonctionnalités</a>
+    <a href="#installation">Installation</a>
+    <a href="#configuration">Configuration</a>
+    <a href="https://github.com/djangocourcelles/YoutubeFocus-Desktop">GitHub</a>
+  </div>
+  <a class="btn" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">
+    ⬇ Télécharger
+  </a>
+</nav>
+
+<section class="hero">
+  <div class="badge">Open Source · macOS · Gratuit</div>
+  <h1>YouTube sans le <span>bruit</span></h1>
+  <p>Naviguez dans vos abonnements et playlists YouTube sans Shorts, sans recommandations algorithmiques, sans publicités. Interface sobre, rapide, qui respecte votre attention.</p>
+  <div class="hero-actions">
+    <a class="btn" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">⬇ Télécharger pour macOS</a>
+    <a class="btn btn-outline" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop">Voir le code</a>
+  </div>
+</section>
+
+<div class="screenshots">
+  <div class="screenshots-grid">
+    <div class="screenshot">
+      <!-- Remplacer par : <img src="screenshots/abonnements.png" alt="Page Abonnements" /> -->
+      <div class="screenshot-placeholder">
+        <span style="font-size:2rem">📺</span>
+        <span>screenshots/abonnements.png</span>
+      </div>
+      <div class="screenshot-label">Abonnements — vos chaînes sans distraction</div>
+    </div>
+    <div class="screenshot">
+      <!-- Remplacer par : <img src="screenshots/playlists.png" alt="Page Playlists" /> -->
+      <div class="screenshot-placeholder">
+        <span style="font-size:2rem">🎵</span>
+        <span>screenshots/playlists.png</span>
+      </div>
+      <div class="screenshot-label">Playlists — accès direct à vos listes</div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="fonctionnalites">
+  <div class="section-title">Ce que vous obtenez</div>
+  <div class="section-sub">Tout ce dont vous avez besoin, rien de superflu.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Abonnements &amp; Playlists</h3>
+      <p>Toutes vos chaînes et playlists en grille, triables par nom, date ou popularité.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚫</div>
+      <h3>Zéro Shorts</h3>
+      <p>Les vidéos de moins de 60 secondes sont automatiquement masquées. Seuil configurable.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <h3>Suivi "vus / non vus"</h3>
+      <p>Marquez les vidéos comme vues. Filtrez pour ne voir que celles qui vous attendent.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌙</div>
+      <h3>Dark mode</h3>
+      <p>Suit votre préférence système. Basculable manuellement depuis l'interface.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💾</div>
+      <h3>Cache local</h3>
+      <p>Vos données sont stockées sur votre appareil. Quota API préservé, chargement instantané.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Lecture seule</h3>
+      <p>L'app n'écrit rien sur YouTube. Elle lit uniquement vos abonnements et playlists.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="installation">
+  <div class="section-title">Installation</div>
+  <div class="section-sub">Deux façons de commencer.</div>
+  <div class="install-grid">
+    <div class="install-card">
+      <h3>⬇ Télécharger l'app</h3>
+      <p>La façon la plus simple. Téléchargez le .dmg, glissez dans Applications, lancez.</p>
+      <a class="btn" style="display:inline-flex" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">Releases →</a>
+      <p style="margin-top:.75rem; font-size:.8rem;">Apple Silicon (M1–M4) ou Intel — choisissez votre version.</p>
+    </div>
+    <div class="install-card">
+      <h3>🛠 Compiler depuis les sources</h3>
+      <p>Pour les développeurs. Rust + Node.js requis.</p>
+      <pre><span class="comment"># Prérequis : Node 18+, Rust via rustup</span>
+<span class="cmd">git clone</span> github.com/djangocourcelles/
+       YoutubeFocus-Desktop
+<span class="cmd">cd</span> YoutubeFocus-Desktop
+<span class="cmd">npm install</span>
+<span class="cmd">PATH="$HOME/.cargo/bin:$PATH" \
+  npm run tauri build</span></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="configuration">
+  <div class="section-title">Configuration Google — étape par étape</div>
+  <div class="section-sub">L'app n'embarque aucune clé API. Vous utilisez les vôtres, gratuitement.</div>
+
+  <div class="setup-steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Créer un projet Google Cloud</h3>
+        <p>Rendez-vous sur <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a>, connectez-vous, puis créez un nouveau projet (ex. <em>MesVideos</em>).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Activer l'API YouTube Data v3</h3>
+        <p>Menu → <strong>API et services</strong> → <strong>Bibliothèque</strong> → recherchez <em>YouTube Data API v3</em> → Activer.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Créer une clé API</h3>
+        <p><strong>Identifiants</strong> → <strong>+ Créer des identifiants</strong> → <strong>Clé API</strong>. Copiez la clé affichée.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Créer un ID client OAuth</h3>
+        <p><strong>+ Créer des identifiants</strong> → <strong>ID client OAuth 2.0</strong> → Type : <strong>Application Web</strong>.<br/>
+        Ajoutez cette URI de redirection exacte : <code>http://localhost:5173/callback</code><br/>
+        Copiez l'ID client généré.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h3>Autoriser votre compte</h3>
+        <p><strong>Google Auth Platform</strong> → <strong>Audience</strong> → <strong>Utilisateurs test</strong> → ajoutez votre adresse Gmail.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h3>Saisir vos identifiants dans l'app</h3>
+        <p>Au premier lancement, l'écran de configuration apparaît automatiquement. Collez votre clé API et votre ID client, cliquez <strong>"Enregistrer et continuer"</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    💡 <strong>Gratuit et privé.</strong> L'API YouTube est gratuite jusqu'à 10 000 requêtes/jour (largement suffisant). Toutes vos données restent sur votre appareil — aucun serveur tiers impliqué.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-title">Stack technique</div>
+  <div class="section-sub">Pour les curieux.</div>
+  <table class="stack-table">
+    <thead><tr><th>Couche</th><th>Technologie</th></tr></thead>
+    <tbody>
+      <tr><td>Shell natif</td><td><span class="tag">Tauri v2</span> <span class="tag">Rust</span></td></tr>
+      <tr><td>Frontend</td><td><span class="tag">React 18</span> <span class="tag">Vite 5</span> <span class="tag">TypeScript strict</span></td></tr>
+      <tr><td>Styling</td><td><span class="tag">Tailwind CSS v3</span></td></tr>
+      <tr><td>State</td><td><span class="tag">Zustand</span></td></tr>
+      <tr><td>Cache local</td><td><span class="tag">Dexie v4</span> <span class="tag">IndexedDB</span></td></tr>
+      <tr><td>API</td><td><span class="tag">YouTube Data API v3</span> <span class="tag">OAuth 2.0</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p>YoutubeFocus Desktop — <a href="https://github.com/djangocourcelles/YoutubeFocus-Desktop">GitHub</a> · Licence MIT · Fait avec ☕ et Tauri</p>
+</footer>
+
+</body>
+</html>
