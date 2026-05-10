@@ -2,12 +2,23 @@ import { useState, useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '@/db/db'
 import { useSettingsStore } from '@/store/settingsStore'
+import { useCredentialsStore } from '@/store/credentialsStore'
 import { usePageTitle } from '@/hooks/usePageTitle'
 
 export function SettingsPage() {
   usePageTitle('Paramètres')
   const { shortThreshold, setShortThreshold } = useSettingsStore()
   const [sliderValue, setSliderValue] = useState(shortThreshold)
+  const { apiKey, oauthClientId, setCredentials } = useCredentialsStore()
+  const [editKey, setEditKey] = useState(apiKey)
+  const [editClientId, setEditClientId] = useState(oauthClientId)
+  const [credsSaved, setCredsSaved] = useState(false)
+
+  function handleSaveCredentials() {
+    setCredentials(editKey.trim(), editClientId.trim())
+    setCredsSaved(true)
+    setTimeout(() => setCredsSaved(false), 2000)
+  }
 
   const videoCount = useLiveQuery(() => db.videos.count(), []) ?? 0
   const channelCount = useLiveQuery(() => db.channels.count(), []) ?? 0
@@ -24,6 +35,43 @@ export function SettingsPage() {
 
   return (
     <div className="max-w-lg space-y-8">
+      <section className="space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+          Identifiants Google API
+        </h2>
+        <div className="rounded-xl bg-zinc-100 p-5 dark:bg-zinc-800 space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Clé API</label>
+            <input
+              type="text"
+              value={editKey}
+              onChange={(e) => setEditKey(e.target.value)}
+              placeholder="AIzaSy..."
+              className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400">ID client OAuth</label>
+            <input
+              type="text"
+              value={editClientId}
+              onChange={(e) => setEditClientId(e.target.value)}
+              placeholder="123456789-abc...apps.googleusercontent.com"
+              className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            />
+          </div>
+          <button
+            onClick={handleSaveCredentials}
+            disabled={!editKey.trim() || !editClientId.trim()}
+            className="w-full rounded-lg bg-amber-500 py-2 text-sm font-semibold text-white transition-colors hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {credsSaved ? '✓ Enregistré' : 'Enregistrer'}
+          </button>
+          <p className="text-xs text-zinc-500">
+            Ces identifiants sont stockés uniquement sur votre appareil. Pour les obtenir, rendez-vous dans Paramètres → Configuration initiale.
+          </p>
+        </div>
+      </section>
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
           Détection des Shorts

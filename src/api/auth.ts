@@ -1,10 +1,13 @@
+import { getCredentials } from '@/store/credentialsStore'
+
 const TOKEN_KEY = 'yt_access_token'
 const TOKEN_EXPIRY_KEY = 'yt_token_expiry'
 
 export function buildAuthUrl(): string {
+  const { oauthClientId } = getCredentials()
   const params = new URLSearchParams({
-    client_id: import.meta.env.VITE_OAUTH_CLIENT_ID as string,
-    redirect_uri: import.meta.env.VITE_OAUTH_REDIRECT_URI as string,
+    client_id: oauthClientId,
+    redirect_uri: 'http://localhost:5173/callback',
     response_type: 'token',
     scope: 'https://www.googleapis.com/auth/youtube.readonly',
   })

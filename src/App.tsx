@@ -2,6 +2,7 @@ import { Navigate, Routes, Route, useParams } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { LoginPage } from '@/pages/LoginPage'
 import { CallbackPage } from '@/pages/CallbackPage'
+import { SetupPage } from '@/pages/SetupPage'
 import { SubscriptionsPage } from '@/pages/SubscriptionsPage'
 import { ChannelPlaylistsPage } from '@/pages/ChannelPlaylistsPage'
 import { PlaylistPage } from '@/pages/PlaylistPage'
@@ -9,11 +10,20 @@ import { SearchPage } from '@/pages/SearchPage'
 import { SettingsPage } from '@/pages/SettingsPage'
 import { AllPlaylistsPage } from '@/pages/AllPlaylistsPage'
 import { useAuthStore } from '@/store/authStore'
+import { useCredentialsStore } from '@/store/credentialsStore'
 import { db } from '@/db/db'
 import { useEffect, useState } from 'react'
 
+function SetupRoute({ children }: { children: React.ReactNode }) {
+  const isConfigured = useCredentialsStore((s) => s.isConfigured)
+  if (!isConfigured) return <Navigate to="/setup" replace />
+  return <>{children}</>
+}
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const accessToken = useAuthStore((s) => s.accessToken)
+  const isConfigured = useCredentialsStore((s) => s.isConfigured)
+  if (!isConfigured) return <Navigate to="/setup" replace />
   if (!accessToken) return <Navigate to="/login" replace />
   return <>{children}</>
 }
@@ -30,7 +40,8 @@ function ChannelTitle() {
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/setup" element={<SetupPage />} />
+      <Route path="/login" element={<SetupRoute><LoginPage /></SetupRoute>} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route
         path="/"
