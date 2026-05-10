@@ -27,7 +27,12 @@ pub fn run() {
                         .to_string();
                     tauri::async_runtime::spawn(async move {
                         if let Some(window) = handle.get_webview_window("main") {
-                            let redirect = format!("tauri://localhost/callback#{}", fragment);
+                            // macOS/Linux : tauri://localhost — Windows : http://tauri.localhost
+                            #[cfg(target_os = "windows")]
+                            let base = "http://tauri.localhost";
+                            #[cfg(not(target_os = "windows"))]
+                            let base = "tauri://localhost";
+                            let redirect = format!("{}/callback#{}", base, fragment);
                             if let Ok(parsed) = tauri::Url::parse(&redirect) {
                                 let _ = window.navigate(parsed);
                             }
