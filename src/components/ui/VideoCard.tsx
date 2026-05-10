@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import { open } from '@tauri-apps/plugin-shell'
 import type { CachedVideo } from '@/db/db'
 
 interface VideoCardProps {
@@ -16,12 +17,19 @@ function formatDuration(seconds: number): string {
 }
 
 export function VideoCard({ video, watched = false, onToggleWatched }: VideoCardProps) {
+  const handleOpen = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    open(`https://www.youtube.com/watch?v=${video.id}`)
+      .then(() => console.log('shell open OK'))
+      .catch((err) => console.error('shell open FAILED:', err))
+  }
+
   return (
     <a
       href={`https://www.youtube.com/watch?v=${video.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group flex flex-col overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/30 transition-all duration-200 ${
+      onClick={handleOpen}
+      className={`group flex flex-col overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/30 transition-all duration-200 cursor-pointer ${
         watched ? 'opacity-50' : ''
       }`}
     >
