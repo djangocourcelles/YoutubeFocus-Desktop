@@ -1,120 +1,117 @@
 # YoutubeFocus Desktop
 
-Naviguez dans vos abonnements et playlists YouTube **sans la pollution de Google** : pas de Shorts, pas de recommandations algorithmiques, pas de publicités. Une interface sobre, rapide, et qui respecte votre attention.
+Navigate your YouTube subscriptions and playlists **without Google's noise**: no Shorts, no algorithmic recommendations, no ads. A clean, fast interface that respects your attention.
 
-Application de bureau macOS construite avec Tauri v2 + React.
+macOS desktop app built with Tauri v2 + React.
 
 ---
 
-## Fonctionnalités
+## Features
 
-- **Abonnements** : toutes vos chaînes en grille, triables (A→Z, Z→A, récents, anciens)
-- **Playlists** : vos playlists personnelles avec miniatures
-- **Vidéos** : grille par playlist, filtre "vus / non vus", tri par date ou durée
-- **Shorts masqués** : les vidéos de moins de 60 s sont automatiquement filtrées
-- **Recherche** : dans vos contenus mis en cache
-- **Dark mode** : suit votre préférence système, basculable manuellement
-- **Cache local** : vos données restent sur votre appareil — quota API préservé
+- **Subscriptions**: all your channels in a grid, sortable (A→Z, Z→A, recent, oldest)
+- **Playlists**: your personal playlists with thumbnails
+- **Videos**: grid per playlist, "watched / unwatched" filter, sort by date or duration
+- **Shorts hidden**: videos shorter than 60s are automatically filtered out
+- **Search**: across your locally cached content
+- **Dark mode**: follows your system preference, manually toggleable
+- **Local cache**: your data stays on your device — API quota preserved
 
 ---
 
 ## Installation
 
-Rendez-vous dans l'onglet [Releases](../../releases) et téléchargez le `.dmg` :
+Go to the [Releases](../../releases) tab and download the `.dmg`:
 
 - **Apple Silicon (M1/M2/M3/M4)** → `YoutubeFocus_x.x.x_aarch64.dmg`
 - **Intel** → `YoutubeFocus_x.x.x_x64.dmg`
 
-Ouvrez le `.dmg`, glissez l'app dans Applications, lancez-la.
+Open the `.dmg`, drag the app to Applications, launch it.
 
 ---
 
-## Première utilisation — Configurer vos identifiants Google
+## First Setup — Configure Your Google Credentials
 
-L'app n'embarque aucune clé API. À la première ouverture, un guide vous accompagne. Voici le détail complet :
+The app does not include any API key. On first launch, a setup guide walks you through it. Full details:
 
-### Étape 1 — Créer un projet Google Cloud
+### Step 1 — Create a Google Cloud project
 
-1. Allez sur [console.cloud.google.com](https://console.cloud.google.com) et connectez-vous.
-2. En haut à gauche, cliquez sur le **sélecteur de projet** → **"Nouveau projet"**.
-3. Donnez-lui un nom (ex. `MesVideos`) et cliquez **"Créer"**.
+1. Go to [console.cloud.google.com](https://console.cloud.google.com) and sign in.
+2. Top-left, click the **project selector** → **"New project"**.
+3. Give it a name (e.g. `MyVideos`) and click **"Create"**.
 
-### Étape 2 — Activer l'API YouTube
+### Step 2 — Enable the YouTube API
 
-1. Menu de gauche → **"API et services"** → **"Bibliothèque"**.
-2. Recherchez `YouTube Data API v3`, cliquez dessus, puis **"Activer"**.
+1. Left menu → **"APIs & Services"** → **"Library"**.
+2. Search for `YouTube Data API v3`, click it, then **"Enable"**.
 
-### Étape 3 — Créer votre clé API
+### Step 3 — Create your API key
 
-1. Menu de gauche → **"API et services"** → **"Identifiants"**.
-2. Cliquez **"+ Créer des identifiants"** → **"Clé API"**.
-3. Copiez la clé affichée (ex. `AIzaSyAbc123...`).
+1. Left menu → **"APIs & Services"** → **"Credentials"**.
+2. Click **"+ Create Credentials"** → **"API key"**.
+3. Copy the key shown (e.g. `AIzaSyAbc123...`).
 
-### Étape 4 — Créer votre ID client OAuth
+### Step 4 — Create your OAuth Client ID
 
-1. Toujours dans **"Identifiants"** → **"+ Créer des identifiants"** → **"ID client OAuth 2.0"**.
-2. Si demandé, configurez l'écran de consentement OAuth :
-   - Type d'utilisateur : **Externe**
-   - Nom de l'application : `YoutubeFocus`
-   - Votre adresse e-mail → Enregistrer.
-3. Type d'application : **"Application Web"**.
-4. Dans **"URI de redirection autorisées"**, ajoutez exactement :
+1. Still in **"Credentials"** → **"+ Create Credentials"** → **"OAuth 2.0 Client ID"**.
+2. If prompted, configure the OAuth consent screen:
+   - User type: **External**
+   - App name: `YoutubeFocus`
+   - Your email address → Save.
+3. Application type: **"Web application"**.
+4. Under **"Authorized redirect URIs"**, add exactly:
    ```
    http://localhost:5173/callback
    ```
-5. Cliquez **"Créer"** et copiez l'**ID client** affiché.
+5. Click **"Create"** and copy the **Client ID** shown.
 
-### Étape 5 — Autoriser votre compte
+### Step 5 — Authorize your account
 
-1. Menu de gauche → **"Google Auth Platform"** → **"Audience"**.
-2. Faites défiler jusqu'à **"Utilisateurs test"** et ajoutez votre adresse Gmail.
+1. Left menu → **"Google Auth Platform"** → **"Audience"**.
+2. Scroll to **"Test users"** and add your Gmail address.
 
-> Cette étape est nécessaire tant que votre app est en mode "Test" (parfait pour un usage personnel).
+> This step is required while your app is in "Testing" mode (perfect for personal use).
 
-### Étape 6 — Saisir vos identifiants dans l'app
+### Step 6 — Enter your credentials in the app
 
-Au premier lancement, l'écran de configuration s'affiche automatiquement.
+On first launch, the setup screen appears automatically.
 
-Collez votre **Clé API** et votre **ID client OAuth**, cliquez **"Enregistrer et continuer"**, connectez-vous avec Google — c'est prêt.
+Paste your **API Key** and **OAuth Client ID**, click **"Save and continue"**, sign in with Google — you're all set.
 
-> Vous pouvez modifier ces identifiants à tout moment dans **Paramètres → Identifiants Google API**.
-
----
-
-## Questions fréquentes
-
-**Est-ce gratuit ?**
-Oui. L'API YouTube est gratuite jusqu'à 10 000 requêtes/jour — largement suffisant pour un usage personnel.
-
-**Mes données sont-elles partagées ?**
-Non. Tout est stocké localement sur votre appareil. Aucun serveur tiers.
-
-**L'app affiche "Cette application n'est pas vérifiée"**
-Normal. Votre projet Google est en mode Test. Cliquez "Paramètres avancés" → "Accéder à YoutubeFocus" pour continuer.
-
-**Les miniatures de chaînes ne s'affichent pas**
-Limitation de la politique de référents de Google Images. Les initiales du nom s'affichent en remplacement.
+> Your credentials are stored locally in the app's data directory. They never leave your device.
 
 ---
 
-## Développement
+## Architecture
 
-### Prérequis
+```
+src/
+├── components/     # React components (SubscriptionGrid, VideoGrid, Settings...)
+├── pages/          # Views (Home, Playlist, Search, Config)
+├── hooks/          # useYouTube, useCache, useTheme
+├── services/       # YouTube API client, local cache (IndexedDB)
+└── types/          # TypeScript types
 
-- [Node.js](https://nodejs.org) 18+
-- [Rust](https://rustup.rs) via rustup
-- Xcode Command Line Tools (macOS)
-
-### Démarrer
-
-```bash
-git clone https://github.com/votre-username/youtubefocus-desktop.git
-cd youtubefocus-desktop
-npm install
-PATH="$HOME/.cargo/bin:$PATH" npm run tauri dev
+src-tauri/
+├── src/lib.rs      # Rust: plugins + OAuth callback interceptor
+└── tauri.conf.json # Tauri config
 ```
 
-### Compiler
+---
+
+## Build from source
+
+### Prerequisites
+
+- Node.js 20+
+- Rust + Cargo (`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`)
+- Xcode Command Line Tools (macOS)
+
+```bash
+git clone https://github.com/djangocourcelles/YoutubeFocus-Desktop.git
+cd YoutubeFocus-Desktop
+npm install
+npm run tauri dev        # development
+```
 
 ```bash
 PATH="$HOME/.cargo/bin:$PATH" npm run tauri build
@@ -122,43 +119,16 @@ PATH="$HOME/.cargo/bin:$PATH" npm run tauri build
 # → src-tauri/target/release/bundle/dmg/YoutubeFocus_x.x.x_aarch64.dmg
 ```
 
-### Structure
+---
 
-```
-src/
-├── api/            # auth.ts (OAuth) · youtube.ts (API calls)
-├── components/     # layout/ (AppShell, Sidebar) · ui/ (VideoCard, ChannelCard...)
-├── db/             # Dexie IndexedDB — cache TTL 1h
-├── hooks/          # useSubscriptions, usePlaylistVideos, useWatched...
-├── pages/          # SetupPage, LoginPage, SubscriptionsPage, PlaylistPage...
-├── store/          # authStore · credentialsStore · themeStore · settingsStore
-└── App.tsx         # Routes + guards (SetupRoute, ProtectedRoute)
+## Technical notes
 
-src-tauri/
-├── src/lib.rs      # Rust : plugins + intercepteur OAuth callback
-└── tauri.conf.json # Config Tauri
-```
-
-### Stack
-
-| Couche | Technologie |
-|---|---|
-| Shell natif | Tauri v2 (Rust) |
-| Frontend | React 18 + Vite 5 + TypeScript strict |
-| Styling | Tailwind CSS v3 |
-| State | Zustand |
-| Cache | Dexie v4 (IndexedDB) |
-| API | YouTube Data API v3 · OAuth 2.0 implicit flow |
-| Routing | React Router v6 |
-
-### Points techniques notables
-
-- **OAuth en production Tauri** : la webview intercepte la redirection Google vers `http://localhost:5173/callback` via `on_navigation` dans Rust, et la rereoute vers `tauri://localhost/callback` sans aucun serveur local.
-- **Quota API** : toutes les listes sont mises en cache (TTL 1h). Les métadonnées vidéo sont cachées indéfiniment. `videos.list` est groupé par lots de 50 pour minimiser les appels.
-- **Détection Shorts** : pas de flag API fiable — détection par `durationSeconds < seuil` (configurable dans Paramètres).
+- **OAuth in Tauri**: the webview intercepts Google's redirect to `http://localhost:5173/callback` via `on_navigation` in Rust, rerouted to `tauri://localhost/callback` — no local server needed.
+- **API quota**: all lists are cached (TTL 1h). Video metadata cached indefinitely. `videos.list` batched in groups of 50 to minimize API calls.
+- **Shorts detection**: no reliable API flag — detection by `durationSeconds < threshold` (configurable in Settings).
 
 ---
 
-## Licence
+## License
 
 MIT
