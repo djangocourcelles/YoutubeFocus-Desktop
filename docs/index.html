@@ -112,11 +112,11 @@
 </nav>
 
 <section class="hero">
-  <div class="badge">Open Source · macOS · Gratuit</div>
+  <div class="badge">Open Source · macOS · Windows · Gratuit</div>
   <h1>YouTube sans le <span>bruit</span></h1>
   <p>Naviguez dans vos abonnements et playlists YouTube sans Shorts, sans recommandations algorithmiques, sans publicités. Interface sobre, rapide, qui respecte votre attention.</p>
   <div class="hero-actions">
-    <a class="btn" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">⬇ Télécharger pour macOS</a>
+    <a class="btn" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">⬇ Télécharger</a>
     <a class="btn btn-outline" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop">Voir le code</a>
   </div>
 </section>
@@ -177,24 +177,25 @@
 
 <section class="section" id="installation">
   <div class="section-title">Installation</div>
-  <div class="section-sub">Deux façons de commencer.</div>
-  <div class="install-grid">
+  <div class="section-sub">Choisissez votre plateforme.</div>
+  <div class="install-grid" style="grid-template-columns:1fr 1fr 1fr">
     <div class="install-card">
-      <h3>⬇ Télécharger l'app</h3>
-      <p>La façon la plus simple. Téléchargez le .dmg, glissez dans Applications, lancez.</p>
-      <a class="btn" style="display:inline-flex" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">Releases →</a>
-      <p style="margin-top:.75rem; font-size:.8rem;">Apple Silicon (M1–M4) ou Intel — choisissez votre version.</p>
+      <h3>🍎 macOS — Apple Silicon</h3>
+      <p>M1, M2, M3, M4 — fichier <code>.dmg</code> aarch64.</p>
+      <a class="btn" style="display:inline-flex" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">Télécharger →</a>
+      <p style="margin-top:.75rem; font-size:.8rem;">Premier lancement : clic droit → Ouvrir (Gatekeeper).</p>
     </div>
     <div class="install-card">
-      <h3>🛠 Compiler depuis les sources</h3>
-      <p>Pour les développeurs. Rust + Node.js requis.</p>
-      <pre><span class="comment"># Prérequis : Node 18+, Rust via rustup</span>
-<span class="cmd">git clone</span> github.com/djangocourcelles/
-       YoutubeFocus-Desktop
-<span class="cmd">cd</span> YoutubeFocus-Desktop
-<span class="cmd">npm install</span>
-<span class="cmd">PATH="$HOME/.cargo/bin:$PATH" \
-  npm run tauri build</span></pre>
+      <h3>🍎 macOS — Intel</h3>
+      <p>Mac Intel — fichier <code>.dmg</code> x64.</p>
+      <a class="btn" style="display:inline-flex" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">Télécharger →</a>
+      <p style="margin-top:.75rem; font-size:.8rem;">Premier lancement : clic droit → Ouvrir (Gatekeeper).</p>
+    </div>
+    <div class="install-card">
+      <h3>🪟 Windows 10 / 11</h3>
+      <p>64-bit — fichier <code>.msi</code> ou <code>-setup.exe</code>.</p>
+      <a class="btn" style="display:inline-flex" href="https://github.com/djangocourcelles/YoutubeFocus-Desktop/releases/latest">Télécharger →</a>
+      <p style="margin-top:.75rem; font-size:.8rem;">Premier lancement : « Informations complémentaires » → « Exécuter quand même » (SmartScreen).</p>
     </div>
   </div>
 </section>

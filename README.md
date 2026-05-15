@@ -2,7 +2,7 @@
 
 Navigate your YouTube subscriptions and playlists **without Google's noise**: no Shorts, no algorithmic recommendations, no ads. A clean, fast interface that respects your attention.
 
-macOS desktop app built with Tauri v2 + React.
+Desktop app for macOS and Windows, built with Tauri v2 + React.
 
 ---
 
@@ -20,12 +20,24 @@ macOS desktop app built with Tauri v2 + React.
 
 ## Installation
 
-Go to the [Releases](../../releases) tab and download the `.dmg`:
+Go to the [Releases](../../releases) tab and download the installer for your platform.
+
+### macOS
 
 - **Apple Silicon (M1/M2/M3/M4)** → `YoutubeFocus_x.x.x_aarch64.dmg`
 - **Intel** → `YoutubeFocus_x.x.x_x64.dmg`
 
 Open the `.dmg`, drag the app to Applications, launch it.
+
+> First launch: right-click → Open (Gatekeeper warning — app is unsigned).
+
+### Windows
+
+- **Windows 10/11 (64-bit)** → `YoutubeFocus_x.x.x_x64-setup.exe` or `YoutubeFocus_x.x.x_x64_en-US.msi`
+
+Double-click the installer.
+
+> First launch: click "More info" → "Run anyway" (SmartScreen warning — app is unsigned).
 
 ---
 
@@ -104,7 +116,8 @@ src-tauri/
 
 - Node.js 20+
 - Rust + Cargo (`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`)
-- Xcode Command Line Tools (macOS)
+- macOS: Xcode Command Line Tools
+- Windows: [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) + [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) (included in Windows 11)
 
 ```bash
 git clone https://github.com/djangocourcelles/YoutubeFocus-Desktop.git
@@ -113,10 +126,18 @@ npm install
 npm run tauri dev        # development
 ```
 
+**macOS:**
 ```bash
 PATH="$HOME/.cargo/bin:$PATH" npm run tauri build
 # → src-tauri/target/release/bundle/macos/YoutubeFocus.app
 # → src-tauri/target/release/bundle/dmg/YoutubeFocus_x.x.x_aarch64.dmg
+```
+
+**Windows:**
+```powershell
+npm run tauri build
+# → src-tauri\target\release\bundle\msi\YoutubeFocus_x.x.x_x64_en-US.msi
+# → src-tauri\target\release\bundle\nsis\YoutubeFocus_x.x.x_x64-setup.exe
 ```
 
 ---
