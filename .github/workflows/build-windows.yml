@@ -47,12 +47,12 @@ jobs:
             ## YoutubeFocus Desktop — Windows
 
             ### Installation
-            1. Télécharger le fichier `.msi`
-            2. Double-cliquer pour installer
-            3. Au premier lancement : cliquer "Informations complémentaires" → "Exécuter quand même" (SmartScreen)
+            1. Download the `.msi` file
+            2. Double-click to install
+            3. First launch: click "More info" → "Run anyway" (SmartScreen warning)
 
-            ### Prérequis
+            ### Requirements
             - Windows 10/11 (64-bit)
-            - Compte Google avec abonnements YouTube
+            - Google account with YouTube subscriptions
           releaseDraft: true
           prerelease: false
