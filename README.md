@@ -4,6 +4,13 @@ Navigate your YouTube subscriptions and playlists **without Google's noise**: no
 
 Desktop app for macOS and Windows, built with Tauri v2 + React.
 
+![Abonnements](docs/screenshots/abonnements.png)
+
+<p align="center">
+  <img src="docs/screenshots/playlists.png" width="49%" />
+  <img src="docs/screenshots/videos.png" width="49%" />
+</p>
+
 ---
 
 ## Features
